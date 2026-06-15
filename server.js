@@ -9,7 +9,7 @@ dotenv.config()
 
 
 const app = express()
-const PORT = process.env.SERVER_PORT || 3001
+const PORT = process.env.PORT || process.env.SERVER_PORT || 3001
 const NOTION_API_KEY = process.env.NOTION_API_KEY
 const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID
 const NOTION_USERS_DB_ID = process.env.NOTION_USERS_DB_ID

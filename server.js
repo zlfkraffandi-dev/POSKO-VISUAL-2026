@@ -150,7 +150,7 @@ async function uploadImage(base64) {
 
 app.post('/api/expense', async (req, res) => {
   try {
-    const { departemen, divisi, pic, expense, amount, photoBase64, pembuat, pakaiUangPribadi } = req.body
+    const { departemen, divisi, pic, expense, amount, photoBase64, pembuat, pakaiUangPribadi, bank, rekening } = req.body
 
     if (!departemen || !divisi || !pic || !expense || !amount) {
       return res.status(400).json({ error: 'Field wajib: departemen, divisi, pic, expense, amount' })
@@ -173,6 +173,8 @@ app.post('/api/expense', async (req, res) => {
       'Date': { date: { start: now } },
       'Reimburse': { status: { name: pakaiUangPribadi ? 'Reimburse' : 'No Reimburse' } },
       ...(pembuat ? { 'Pembuat': { rich_text: [{ text: { content: pembuat } }] } } : {}),
+      ...(bank ? { 'Bank': { rich_text: [{ text: { content: bank } }] } } : {}),
+      ...(rekening ? { 'Rekening': { rich_text: [{ text: { content: rekening } }] } } : {}),
     }
 
     if (photoBase64) {

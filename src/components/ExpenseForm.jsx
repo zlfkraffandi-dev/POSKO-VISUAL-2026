@@ -9,6 +9,8 @@ const EMPTY = {
   amount: '',
   photoBase64: null,
   pakaiUangPribadi: false,
+  bank: '',
+  rekening: '',
 }
 
 const fmtIDR = (val) => {
@@ -87,6 +89,8 @@ export default function ExpenseForm({ user }) {
           amount: form.amount.replace(/\D/g, ''),
           photoBase64: form.photoBase64,
           pakaiUangPribadi: form.pakaiUangPribadi,
+          bank: form.bank,
+          rekening: form.rekening,
           pembuat: user?.nama,
         }),
       })
@@ -264,6 +268,31 @@ export default function ExpenseForm({ user }) {
               <p className="mt-2 text-xs text-amber-600">Akan diajukan reimburse ke departemen</p>
             )}
           </div>
+
+          {/* Bank & Rekening — hanya jika Dana Pribadi */}
+          {form.pakaiUangPribadi === true && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+              <FieldGroup label="Bank">
+                <input
+                  type="text"
+                  value={form.bank}
+                  onChange={e => set('bank', e.target.value)}
+                  placeholder="Contoh: BCA, Mandiri, BRI"
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="No. Rekening">
+                <input
+                  type="text"
+                  value={form.rekening}
+                  onChange={e => set('rekening', e.target.value)}
+                  placeholder="Contoh: 1234567890"
+                  className={inputClass()}
+                  inputMode="numeric"
+                />
+              </FieldGroup>
+            </div>
+          )}
 
           {/* Camera */}
           <FieldGroup label="Foto Nota/Bukti *" error={errors.photo}>

@@ -76,24 +76,14 @@ export default function CameraCapture({ onCapture }) {
   return (
     <div className="space-y-3">
       {!isCameraOpen && !preview && (
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={openCamera}
-            className="flex-1 px-4 py-6 border-2 border-dashed border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-200 flex flex-col items-center gap-2 cursor-pointer"
-          >
-            <span className="text-2xl">📷</span>
-            <p className="text-xs font-medium text-gray-600">Kamera</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            className="flex-1 px-4 py-6 border-2 border-dashed border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-200 flex flex-col items-center gap-2 cursor-pointer"
-          >
-            <span className="text-2xl">📁</span>
-            <p className="text-xs font-medium text-gray-600">Upload</p>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          className="w-full px-4 py-8 border-2 border-dashed border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-200 flex flex-col items-center gap-2 cursor-pointer"
+        >
+          <p className="text-sm font-medium text-gray-500">Klik untuk upload foto nota</p>
+          <p className="text-xs text-gray-400">JPG, PNG, HEIC</p>
+        </button>
       )}
 
       {isCameraOpen && (

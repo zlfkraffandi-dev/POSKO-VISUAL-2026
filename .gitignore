@@ -2,3 +2,7 @@ node_modules/
 .env
 dist/
 .DS_Store
+check-notion-*.js
+setup-https.js
+certs/
+.claude/

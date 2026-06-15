@@ -1,0 +1,24 @@
+{
+  "name": "Expense Recorder POVI 2026",
+  "short_name": "POVI Expense",
+  "description": "Pencatatan expense untuk POVI 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7FF",
+  "theme_color": "#7C3AED",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

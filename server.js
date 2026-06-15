@@ -128,47 +128,22 @@ app.get('/api/options', (req, res) => {
 })
 
 async function uploadImage(base64) {
-  // Coba Telegraph dulu
-  try {
-    const matches = base64.match(/^data:(.+);base64,(.+)$/)
-    if (!matches) throw new Error('Invalid base64')
-    const mimeType = matches[1]
-    const buffer = Buffer.from(matches[2], 'base64')
-    const ext = mimeType.split('/')[1]?.split('+')[0] || 'jpg'
+  const matches = base64.match(/^data:(.+);base64,(.+)$/)
+  if (!matches) throw new Error('Invalid base64 image')
+  const imageData = matches[2]
 
-    const form = new FormData()
-    form.append('file', buffer, { filename: `nota.${ext}`, contentType: mimeType })
+  const form = new FormData()
+  form.append('key', process.env.IMGBB_API_KEY)
+  form.append('image', imageData)
 
-    const res = await axios.post('https://telegra.ph/upload', form, {
-      headers: form.getHeaders(),
-      timeout: 10000,
-    })
-    const src = res.data[0]?.src
-    if (src) return `https://telegra.ph${src}`
-  } catch (e) {
-    console.error('Telegraph upload gagal:', e.response?.data || e.message)
-  }
+  const res = await axios.post('https://api.imgbb.com/1/upload', form, {
+    headers: form.getHeaders(),
+    timeout: 15000,
+  })
 
-  // Fallback: 0x0.st
-  try {
-    const matches = base64.match(/^data:(.+);base64,(.+)$/)
-    const mimeType = matches[1]
-    const buffer = Buffer.from(matches[2], 'base64')
-    const ext = mimeType.split('/')[1]?.split('+')[0] || 'jpg'
-
-    const form = new FormData()
-    form.append('shorten', buffer, { filename: `nota.${ext}`, contentType: mimeType })
-
-    const res = await axios.post('https://0x0.st', form, {
-      headers: form.getHeaders(),
-      timeout: 10000,
-    })
-    if (res.data?.trim()) return res.data.trim()
-  } catch (e) {
-    console.error('0x0.st upload gagal:', e.message)
-  }
-
-  throw new Error('Semua layanan upload foto gagal')
+  const url = res.data?.data?.url
+  if (!url) throw new Error('ImgBB upload gagal')
+  return url
 }
 
 app.post('/api/expense', async (req, res) => {

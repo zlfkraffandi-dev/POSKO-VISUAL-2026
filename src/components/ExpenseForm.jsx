@@ -272,12 +272,12 @@ export default function ExpenseForm({ user }) {
           {/* Bank & Rekening — hanya jika Dana Pribadi */}
           {form.pakaiUangPribadi === true && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-              <FieldGroup label="Bank">
+              <FieldGroup label="Bank - Atas Nama Lengkap">
                 <input
                   type="text"
                   value={form.bank}
                   onChange={e => set('bank', e.target.value)}
-                  placeholder="Contoh: BCA, Mandiri, BRI"
+                  placeholder="Contoh: BCA - Bintang Fajri Martani"
                   className={inputClass()}
                 />
               </FieldGroup>

@@ -21,6 +21,7 @@ export default function ExpenseForm({ user }) {
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [cameraKey, setCameraKey] = useState(0)
   const [optionsLoading, setOptionsLoading] = useState(true)
   const [options, setOptions] = useState({ departemen: [], divisi: [], departemenDivisiMap: {} })
 
@@ -97,10 +98,13 @@ export default function ExpenseForm({ user }) {
       }
 
       setSubmitted(true)
-      setForm(EMPTY)
-      setErrors({})
 
-      setTimeout(() => setSubmitted(false), 3000)
+      setTimeout(() => {
+        setSubmitted(false)
+        setForm(EMPTY)
+        setErrors({})
+        setCameraKey(k => k + 1)
+      }, 3000)
     } catch (err) {
       setErrors(prev => ({ ...prev, submit: err.message }))
       console.error(err)
@@ -264,6 +268,7 @@ export default function ExpenseForm({ user }) {
           {/* Camera */}
           <FieldGroup label="Foto Nota/Bukti *" error={errors.photo}>
             <CameraCapture
+              key={cameraKey}
               onCapture={base64 => set('photoBase64', base64)}
             />
           </FieldGroup>

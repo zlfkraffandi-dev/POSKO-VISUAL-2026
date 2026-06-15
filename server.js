@@ -132,13 +132,15 @@ async function uploadImage(base64) {
   if (!matches) throw new Error('Invalid base64 image')
   const imageData = matches[2]
 
-  const form = new FormData()
-  form.append('key', process.env.IMGBB_API_KEY)
-  form.append('image', imageData)
+  const params = new URLSearchParams()
+  params.append('key', process.env.IMGBB_API_KEY)
+  params.append('image', imageData)
 
-  const res = await axios.post('https://api.imgbb.com/1/upload', form, {
-    headers: form.getHeaders(),
-    timeout: 15000,
+  const res = await axios.post('https://api.imgbb.com/1/upload', params.toString(), {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    timeout: 30000,
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
   })
 
   const url = res.data?.data?.url

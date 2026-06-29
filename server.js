@@ -167,7 +167,7 @@ app.post('/api/expense', async (req, res) => {
     const properties = {
       'Expense Record': { title: [{ text: { content: expense } }] },
       'Departemen': { relation: [{ id: departemenId }] },
-      'Divisi': { relation: [{ id: divisiId }] },
+      'Expense Divisi': { relation: [{ id: divisiId }] },
       'PIC': { rich_text: [{ text: { content: pic } }] },
       'Amount': { number: parseInt(amount) },
       'Date': { date: { start: now } },

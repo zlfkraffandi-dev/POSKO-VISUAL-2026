@@ -311,7 +311,7 @@ export default function ExpenseForm({ user }) {
               className={`flex-1 py-2.5 rounded-xl font-semibold text-sm transition-all ${
                 submitted
                   ? 'bg-success text-white animate-scale-pop'
-                  : loading || optionsLoading
+                  : loading
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-accent text-white shadow-md shadow-primary/30 hover:shadow-lg hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0'
               }`}

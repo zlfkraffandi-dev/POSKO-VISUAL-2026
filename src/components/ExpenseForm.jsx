@@ -1,5 +1,24 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import CameraCapture from './CameraCapture.jsx'
+
+const STATIC_OPTIONS = {
+  departemen: [
+    'BPH',
+    'DEPT. ART LEAD',
+    'DEPT. EVENT ORGANIZER',
+    'DEPT. PRODUCTION MANAGER',
+    'DEPT. PUBLIC RELATION',
+    'DEPT. SOCIAL MEDIA',
+  ],
+  departemenDivisiMap: {
+    'BPH':                      ['KETUA & WAKIL KETUA', 'SEKRETARIS', 'BENDAHARA'],
+    'DEPT. ART LEAD':           ['ART DESIGN', 'CINEMATOGRAPHY', 'WEBSITE'],
+    'DEPT. PUBLIC RELATION':    ['SPONSORSHIP', 'MEDIA PARTNER', 'SALES & COMMERCE', 'LIAISON OFFICER', 'OFFLINE PUBLICATION'],
+    'DEPT. PRODUCTION MANAGER': ['EQUIPMENT', 'EVENT SECURITY', 'DECORATION'],
+    'DEPT. SOCIAL MEDIA':       ['CONTENT CREATOR', 'COPYWRITING', 'ADMIN', 'CONTENT PLANNING'],
+    'DEPT. EVENT ORGANIZER':    ['CONSUMPTION', 'EVENT MANAGEMENT', 'EXHIBITION DISPLAY', 'CURATIONAL'],
+  },
+}
 
 const EMPTY = {
   departemen: '',
@@ -24,25 +43,7 @@ export default function ExpenseForm({ user }) {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [cameraKey, setCameraKey] = useState(0)
-  const [optionsLoading, setOptionsLoading] = useState(true)
-  const [options, setOptions] = useState({ departemen: [], divisi: [], departemenDivisiMap: {} })
-
-  useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const response = await fetch('/api/options')
-        const data = await response.json()
-        if (data.ok) {
-          setOptions(data)
-        }
-      } catch (err) {
-        console.error('Error fetching options:', err)
-      } finally {
-        setOptionsLoading(false)
-      }
-    }
-    fetchOptions()
-  }, [])
+  const options = STATIC_OPTIONS
 
   const set = (field, value) => {
     setForm(prev => ({
@@ -159,20 +160,13 @@ export default function ExpenseForm({ user }) {
             </div>
           )}
 
-          {/* Loading options */}
-          {optionsLoading && (
-            <div className="p-4 bg-blue-50 border border-primary rounded-lg">
-              <p className="text-sm text-primary">Mengambil data dari Notion...</p>
-            </div>
-          )}
-
           {/* Departemen & Divisi */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FieldGroup label="Departemen *" error={errors.departemen}>
               <select
                 value={form.departemen}
                 onChange={e => set('departemen', e.target.value)}
-                disabled={optionsLoading}
+                disabled={false}
                 className={inputClass(errors.departemen)}
               >
                 <option value="">— Pilih —</option>
@@ -186,7 +180,7 @@ export default function ExpenseForm({ user }) {
               <select
                 value={form.divisi}
                 onChange={e => set('divisi', e.target.value)}
-                disabled={optionsLoading || !form.departemen}
+                disabled={!form.departemen}
                 className={inputClass(errors.divisi)}
               >
                 <option value="">— Pilih —</option>
@@ -313,7 +307,7 @@ export default function ExpenseForm({ user }) {
             </button>
             <button
               type="submit"
-              disabled={loading || optionsLoading}
+              disabled={loading}
               className={`flex-1 py-2.5 rounded-xl font-semibold text-sm transition-all ${
                 submitted
                   ? 'bg-success text-white animate-scale-pop'
